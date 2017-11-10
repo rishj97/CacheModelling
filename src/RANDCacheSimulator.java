@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-/**
- * Created by rishabh on 31/10/2017.
- */
 public class RANDCacheSimulator extends CacheSimulator {
   ArrayList<Integer> cacheList;
 
@@ -38,5 +35,4 @@ public class RANDCacheSimulator extends CacheSimulator {
     randSimulator = new RANDCacheSimulator(100, 1000);
     randSimulator.simulate();
   }
-
 }

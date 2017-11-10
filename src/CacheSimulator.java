@@ -1,13 +1,11 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 
-/**
- * Created by rishabh on 31/10/2017.
- */
 public abstract class CacheSimulator {
   int m;
   int n;
-
+  final int numSimulations = 100;
+  final int maxArrivals = 100000;
   double lambdaSum = 0;
   AliasMethod aliasMethod;
   HashSet<Integer> cache;
@@ -58,15 +56,15 @@ public abstract class CacheSimulator {
   }
 
   void simulate() {
-    int size = 100;
-    double hitRatios[] = new double[size];
-    double missRates[] = new double[size];
-    for (int i = 0; i < size; i++) {
+
+    double hitRatios[] = new double[numSimulations];
+    double missRates[] = new double[numSimulations];
+    for (int i = 0; i < numSimulations; i++) {
       double time = 0;
       int hits = 0;
       int misses = 0;
       int arrivals = 0;
-      while (arrivals <= 100000) {
+      while (arrivals <= maxArrivals) {
         arrivals++;
         time += sampleArrivalTime();
         int request = aliasMethod.next() + 1;
@@ -83,23 +81,21 @@ public abstract class CacheSimulator {
     Statistics hitRatioStats = new Statistics(hitRatios);
 
     System.out.println("Hit Ratio");
-    System.out.println();
     System.out.println("Mean: " + hitRatioStats.getMean());
-    System.out.println("Confidence Interval: " + confidenceInterval(1.96D,
+    System.out.println("Confidence Interval: " + confidenceInterval(
         hitRatioStats.getStdDev(), hitRatios.length));
 
     Statistics missRateStats = new Statistics(missRates);
     System.out.println("Miss Rate");
-    System.out.println();
     System.out.println("Mean: " + missRateStats.getMean());
-    System.out.println("Confidence Interval: " + confidenceInterval(1.96D,
+    System.out.println("Confidence Interval: " + confidenceInterval(
         missRateStats.getStdDev(), missRates.length));
-    System.out.println("-------------------");
   }
 
-  double confidenceInterval(double confidenceLevel, double standardDeviation,
+  double confidenceInterval(double standardDeviation,
                             int size) {
-    return confidenceLevel * standardDeviation / Math.sqrt(size);
+    double confidenceValue = 1.96;    // For 95 percent confidence level
+    return confidenceValue * standardDeviation / Math.sqrt(size);
   }
 
 

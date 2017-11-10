@@ -1,9 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * Created by rishabh on 02/11/2017.
- */
 public class FIFOCacheSimulator extends CacheSimulator {
   Queue<Integer> cacheQueue;
 
